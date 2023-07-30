@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>swiggy</title>	 
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/responsive.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fasthand&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="col-12 header-pos">
+        <div class="container text-center pt-2">
+        <div class="row justify-content-between">
+            <div class="col-12 col-lg-5 row align-items-center">
+                <div class="col-5 col-lg-3">
+                    <img src="image/swiggy.svg" width="100%" height="50px">
+                </div>
+                <div class="col-5 col-lg-9 d-flex align-items-center pt-3 heading-hvr">
+                    <p>
+                        <ins>
+                            <strong>Other</strong>
+                        </ins>
+                        <span class="text-secondary">Pavoorchathram,Tamil Nadu,India</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-12 col-lg-6 row justify-content-between align-items-center">
+                <!--1-->
+                <div class="col-4 col-lg-2 row heading-hvr pt-3">
+                    <div class="col-4">
+                        <i class="bi bi-search fs-5"></i>
+                    </div>
+                    <div class="col-8 text-start pt-1">
+                        <p>Search</p>
+                    </div>
+                </div>
+                <!--2-->
+                <div class="col-4 col-lg-3 heading-hvr">
+                    <i class="bi bi-percent fs-5"></i>
+                    <span>Offers</span>
+                    <sup style="color:orange">NEW</sup>
+                </div>
+                <!--3-->
+                <div class="col-4 col-lg-2 row heading-hvr pt-3">
+                    <div class="col-4">
+                        <i class="bi bi-h-circle fs-5"></i>
+                    </div>
+                    <div class="col-8 text-start pt-1">
+                        <p>Help</p>
+                    </div>
+                </div>
+                <!--4-->
+                <div class="col-4 col-lg-2 row heading-hvr pt-3">
+                    <div class="col-4">
+                        <i class="bi bi-person fs-5"></i>
+                    </div>
+                    <div class="col-8 text-start pt-1">
+                        <p>Sure</p>
+                    </div>
+                </div>
+                <!--5-->
+                <div class="col-4 col-lg-3 row heading-hvr pt-3" style="cursor:pointer" data-bs-toggle="modal" href="#exampleModalToggle" role="button">
+                    <div class="col-4">
+                        <i class="bi bi-box2 fs-5"></i>
+                    </div>
+                    <div class="col-8 text-start pt-1">
+                        <p>Cart
+                            <span id="card"></span>                         
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+<div class="col-12">
+    <section  id="hotel-menu-page2" style="margin-top: 80px;">
+        <div class="container">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="row col-12 col-lg-8 py-2">
+                    <div class="col-6">
+                        <p>Home/</p>
+                    </div>
+                    <div class="col-6 row justify-content-end text-end py-2">
+                        <div class="col-1">
+                            <i class="bi bi-suit-heart fs-5"></i>
+                        </div>
+                        <div class="col-1">
+                            <i class="bi bi-search fs-5"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <div class="row col-12 col-lg-8 py-2" style="border-bottom: 1px dashed rgb(207, 205, 205);">
+                    <div class="col-6">
+                        <h4 class="text-capitalize" id="page2HotelName">/</h4>
+                        <p class="text-capitalize" id="page2HotelMenuList" class="text-secondary" style="font-size: 13px;"></p>
+                        <p class="text-capitalize" id="page2HotelDistance" class="text-secondary" style="font-size: 13px;"></p>
+                    </div>
+                    <div class="col-6 d-flex align-items-center justify-content-end">
+                        <div class="border col-2 text-center" style="border-radius: 12px;background-color:white;">
+                            <p id="page2HotelRating"></p>
+                            <p style="font-size: 11px;">10k+ ratings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <div class="row col-12 col-lg-8 py-2">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-5">
+                                <i class="bi bi-clock-fill"></i>
+                                <span id="page2HotelTime" style="font-size: 13px;"></span>
+                            </div>
+                            <div class="col-5">
+                                <i class="bi bi-currency-rupee"></i>
+                                <span id="page2Hotelrupee" style="font-size: 13px;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <div class="row col-12 col-lg-8 py-2 scroll-hidden" style="overflow: hidden;overflow-x: scroll;">
+                    <div class="col-12">
+                        <div class="row" style="flex-wrap: nowrap;cursor:pointer">
+                            <div class="col-3 me-2" style="border:1px solid gray;border-radius:12px;padding:5px 1px;">
+                                <img src="image/offer.webp" style="height:20px;width:20px;">
+                                <span class="fw-bold text-secondary" style="font-size: 14px;">40% OFF UPTO <i class="bi bi-currency-rupee"></i>80</span>
+                                <p class="text-secondary" style="font-size: 12px;margin-bottom: 0!important;">USE TRY NEW | ABOVE <i class="bi bi-currency-rupee">159</i></p>
+                            </div>
+                            <div class="col-3 d-flex align-items-center me-2" style="border:1px solid gray;border-radius:12px;padding:5px 1px;">
+                                <div class="col-2">
+                                    <span style="writing-mode: vertical-lr; transform: rotate(180deg);color:red;border-left:1px solid rgb(230, 226, 226);font-size: 13px;">Lunch</span>
+                                </div>
+                                <div calss="col-9">
+                                    <img src="image/offer.webp" style="height:20px;width:20px;">
+                                    <span class="fw-bold text-secondary" style="font-size: 14px;">Flat <i class="bi bi-currency-rupee"></i>100 OFF</span>
+                                    <p class="text-secondary" style="font-size: 12px;margin-bottom: 0!important;">USE LUNCHBINGE | ABOVE <i class="bi bi-currency-rupee">299</i></p>
+                                </div>
+                            </div>
+                            <div class="col-3 me-2" style="border:1px solid gray;border-radius:12px;padding:5px 1px;">
+                                <img src="image/offer1.webp" style="height:20px;width:20px;">
+                                <span class="fw-bold text-secondary" style="font-size: 14px;">15% OFF UPTO <i class="bi bi-currency-rupee"></i>300</span>
+                                <p class="text-secondary" style="font-size: 12px;margin-bottom: 0!important;">USE CITIFOODIE| ABOVE <i class="bi bi-currency-rupee">1200</i></p>
+                            </div>
+                            <div class="col-3 me-2" style="border:1px solid gray;border-radius:12px;padding:5px 1px;">
+                                <img src="image/offer2.webp" style="height:20px;width:20px;">
+                                <span class="fw-bold text-secondary" style="font-size: 14px;">15% OFF UPTO <i class="bi bi-currency-rupee"></i>125</span>
+                                <p class="text-secondary" style="font-size: 12px;margin-bottom: 0!important;">USE FEDERALCC125 | ABOVE <i class="bi bi-currency-rupee">399</i></p>
+                            </div>
+                            <div class="col-3 me-2" style="border:1px solid gray;border-radius:12px;padding:5px 1px;">
+                                <img src="image/offer3.webp" style="height:20px;width:20px;">
+                                <span class="fw-bold text-secondary" style="font-size: 14px;">FLAT <i class="bi bi-currency-rupee"></i>150 OFF</span>
+                                <p class="text-secondary" style="font-size: 12px;margin-bottom: 0!important;">USE AMEX150 | ABOVE <i class="bi bi-currency-rupee">600</i></p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>	
+    <section>
+        <div class="container">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="row col-12 col-md-8 py-2">
+                    <div class="col-1">
+                        <p style="font-weight: bold;font-size: 12px;">VEG ONLY</p>
+                    </div>
+                
+                    <div class="col-12 accordion" id="accordionPanelsStayOpenExample">
+                        <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            Recommended
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                <div class="col-12 row" id="hotel-food-looping">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            Accordion Item #2
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                          <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                          Accordion Item #3
+                        </button>
+                      </h2>
+                      <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                          <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<section>
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-center" id="exampleModalToggleLabel">your order</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="orderShowing">
+                <div class="row" style="color: sandybrown;">
+                    <div class="col-3">
+                        <p>Ordered food</p>
+                    </div>
+                    <div class="col-3">
+                        <p>Food price</p>
+                    </div>
+                    <form class="col-3">
+                        <p>Quantity</p>
+                    </form>
+                    <div class="col-3">
+                        <p>cancel order</p>
+                    </div>
+                </div>
+                    <!--js-->
+            </div>
+            <div class="modal-footer">
+              <button onclick="addTotal()" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Place Order</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalToggleLabel2">conform order</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                 <div class="row" style="color: sandybrown;">
+                    <div class="col-3">
+                        <p>Ordered food</p>
+                    </div>
+                    <div class="col-3">
+                        <p>Food price</p>
+                    </div>
+                    <form class="col-3">
+                        <p>Quantity</p>
+                    </form>
+                    <div class="col-3">
+                        <p>Total</p>
+                    </div>
+                </div>
+                <div id="conformOrder">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+
+<script src="js/script3.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
