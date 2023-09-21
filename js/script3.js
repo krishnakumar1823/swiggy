@@ -198,20 +198,17 @@ for(i=0;i<array.length;i++){
 
         //hotel food menu card 
         var arrayFoodCount=array[i].food
-        console.log(arrayFoodCount.length)
 
         for(j=0;j<arrayFoodCount.length;j++){
-
-            console.log(array[i].food)
 
         var getHotelFoods=document.getElementById("hotel-food-looping")
 
         getHotelFoods.innerHTML+=`<div class="col-12 row align-items-center justify-content-between">
-                        <div class="col-6 row align-items-center pb-5">
-                            <div class="col-1">
+                        <div class="col-6 col-lg-6 row align-items-center pb-5">
+                            <div class="col-2 col-lg-1">
                                 <img src="image/veg.png" style="height:20px;width:20px">
                             </div>
-                            <div class="col-10" style="color:orange;font-size: 13px;;">
+                            <div class="col-10 " style="color:orange;font-size: 13px;;">
                                 <i class="bi bi-star-fill"></i>
                                 <span style="letter-spacing: 3px;">BESTSELLER</span>
                             </div>
@@ -220,7 +217,7 @@ for(i=0;i<array.length;i++){
                                 <p class="menu-card-price" class="text-secondary" style="font-size:13px;"><i class="bi bi-currency-rupee"></i></p>
                             </div>
                         </div>  
-                        <div class="col-2 text-end position-relative">
+                        <div class="col-6 col-lg-2 text-end position-relative">
                             <img src="${array[i].food[j].recommandedImg}" style="height:100px;width:135px;border-radius:16px;">
                             <div>
                                 <p class="img-menu-list-page2" onclick="addItems('${j}','${i}','${j}','${0}')" id='addfood${j}'>ADD</p>
@@ -244,9 +241,6 @@ var saveCount=0
 
 
 function addItems(value,array_i,array_j,clickCount){
-
-    console.log(savedItems)
-
     var addItemPos=document.getElementById(`addfood${value}`)
     addItemPos.setAttribute("onclick","addItems(0)")
     ++clickCount
@@ -277,62 +271,68 @@ function addItems(value,array_i,array_j,clickCount){
     }
 }
 
-function seeCard(){ 
-    savedItems.map((e) =>{
-        
-    })
-}
+
 
 //hotel menu page 2
-
 //getting card items in local storage
 var getOrdersFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodItems"))
 var getQuantityFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodQuantity"))
-
-console.log(getQuantityFromLocalStorage)
-//var reset=localStorage.setItem("hotelId",JSON.stringify(""))
 
 var cardHead=document.getElementById("card")
 cardHead.setAttribute("class","headcard-count")
 cardHead.innerHTML=getOrdersFromLocalStorage.length
 
-
-	getOrdersFromLocalStorage.map((e) =>{
-	
-	
-
-	var orderShowing=document.getElementById("orderShowing")
-	orderShowing.innerHTML+=`<div class="row">
-								<div class="col-3">
-									<p>${e.items_name}</p>
-								</div>
-								<div class="col-3">
-									<p>${e.items_price}</p>
-								</div>
-								<div class="col-3">
-									<input type="number" onclick="getQunatityInput('${e.id}')" value='${getQuantityFromLocalStorage[e.id].foodCountplaced}'style="width:50%" id="getQunatity${e.id}"></input>
-								</div>
-								<div class="col-3 rmvbtn">
-									<buttom id='Remove${e.id}' onclick="removeOrder('${e.id}')">Remove</button>
-								</div>
-							</div>`	
-
-							
+var orderShowing=document.getElementById("orderShowing")
+getOrdersFromLocalStorage.map((e) =>{
+orderShowing.innerHTML+=`<div class="row">
+                            <div class="col-3">
+                                <p>${e.items_name}</p>
+                            </div>
+                            <div class="col-3">
+                                <p>${e.items_price}</p>
+                            </div>
+                            <div class="col-3">
+                                <input type="number" min="1" max="5" onclick="getQunatityInput('${e.id}')" value='${getQuantityFromLocalStorage[e.id].foodCountplaced}'style="width:50%" id="getQunatity${e.id}"></input>
+                            </div>
+                            <div class="col-3 rmvbtn">
+                                <buttom id='Remove${e.id}' onclick="removeOrder('${e.id}')">Remove</button>
+                            </div>
+                        </div>`				
 })
+
+
+
 
 function removeOrder(rmvid){
 	var getquant=document.getElementById(`getQunatity${rmvid}`).value
 	var getOrdersFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodItems"))
-	
+    var setNewQuantity=[]
+    var setNewOrder=[]
+
 	for(i=0;i<getOrdersFromLocalStorage.length;i++){
 		if(getOrdersFromLocalStorage[i].id == rmvid){
-
+    
+    //Resetting QuantityFromLocalStorage
 			getQuantityFromLocalStorage.splice(i,1)
-			localStorage.setItem("savedFoodQuantity",JSON.stringify(getQuantityFromLocalStorage))
+            var newQuantityLength=getQuantityFromLocalStorage.length
+            for(var i=0;i<newQuantityLength;i++){
+                var x={...getQuantityFromLocalStorage[i],foodsavingId:i}
+                setNewQuantity[setNewQuantity.length]=x
+                
+            } 
+			localStorage.setItem("savedFoodQuantity",JSON.stringify(setNewQuantity))
 
-			getOrdersFromLocalStorage.splice(i,1)
-			localStorage.setItem("savedFoodItems",JSON.stringify(getOrdersFromLocalStorage))
-
+    //Resetting OrdersFromLocalStorage
+            getOrdersFromLocalStorage.splice(i,1)
+            var newOrderLength=getOrdersFromLocalStorage.length
+            for(var i=0;i<newOrderLength;i++){
+                var y={...getOrdersFromLocalStorage[i],id:i}
+                setNewOrder[setNewOrder.length]=y
+                
+            } 
+			localStorage.setItem("savedFoodItems",JSON.stringify(setNewOrder))
+    
+    //Removing the particular div
 			var removing=document.getElementById(`Remove${rmvid}`)
 			removing.parentElement.parentElement.remove()
 			
@@ -381,9 +381,10 @@ function addTotal(){
 											<p>${total}</p>
 										</div>
 									</div>`
-			
 			}
 		}
+
+
 	})
 	var sum=0
 	for(a=0;a<totaladdingArray.length;a++){
@@ -394,6 +395,7 @@ function addTotal(){
 	var finalTotal=document.createElement("p")
 	finalTotal.innerHTML="Total = "
 	var finalAmt=document.createElement("p")
+	finalAmt.setAttribute("id","finalAmt")
 	finalAmt.innerHTML=sum
 
 	finalrow.setAttribute("class","row")
@@ -403,4 +405,41 @@ function addTotal(){
 	conformOrder.append(finalrow)
 	finalrow.appendChild(finalTotal)
 	finalrow.appendChild(finalAmt)
+
+	localStorage.setItem("Payment_Amt",JSON.stringify(sum))
+
+	var getPaymentAmt=JSON.parse(localStorage.getItem("Payment_Amt"))
+
+var rzp_button=document.getElementById("rzp-button1")
+rzp_button.setAttribute("onclick" ,`paymentGateway(${getPaymentAmt})`)
+console.log(rzp_button)
+}
+
+
+
+
+function paymentGateway(paymntamount){
+	var amt= paymntamount*100
+		var options = {
+			"key": "rzp_test_DeF2QdkgXxWVNm",  
+			"amount": amt ,  
+			"currency":"INR",
+			"name": "Swiggy payment",  
+			"description": "Test Transaction",
+			"image": "https://www.vhv.rs/dpng/d/433-4338596_swiggy-logo-png-image-free-download-searchpng-swiggy.png",
+			//"order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+			"handler": function (response){
+				
+			}
+			
+		};
+		var rzp1 = new Razorpay(options);
+		
+		rzp1.on('payment.failed', function (response){
+			
+		});
+		document.getElementById('rzp-button1').onclick = function(e){
+			rzp1.open();
+			e.preventDefault();
+		}
 }

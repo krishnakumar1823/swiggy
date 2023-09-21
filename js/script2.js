@@ -55,12 +55,10 @@ function food(array){
 	array.map((e)=>{
 		//creating menu id for id name=menu
 		var mnuid=0;
-		var idmenu="menu_id_"+`${indx}`
-		var idanimi="animi_id"+`${indx}`
 		
 		//console.log(idmenu)
 
-		foodfilter.innerHTML+=`<div class="col-12 col-md-6 col-lg-3 position-relative food-hover p-3" id="food">
+		foodfilter.innerHTML+=`<div class="col-12 col-md-6 col-lg-3 position-relative food-hover p-3" id="food" onclick="hotelDetailView('${e.id}')">
 								<img class="img" style="height:200px;padding:10px 10px;width:100%">
 								<div class="col-12 row" style="padding:10px 10px">
 									<h6 class="col-12 fw-bold text-capitalize">${e.name}</h6>
@@ -73,45 +71,7 @@ function food(array){
 									<span class="col-1 fs-4 pb-3 span-padding">.</span>
 									<span class="bi bi-currency-rupee col-4 text-secondary text-uppercase span-padding fontSize">${e.price} FOR EACH</span>
 								</div>
-								<div class="hide">
-									<p style="cursor:pointer;color:blue" onclick="hotelDetailView('${e.id}')">QUICK VIEW</p>
-								</div>
-								<div id="${idanimi}">
-									<div class="menu-pos text-center">
-										<h6 class="col-12"></h6>
-										<h6 class="col-12">Menu</h6>
-										<div class="col-12">
-											<img src="image/menu.webp" height="8px" width="20px">
-										</div>
-											<span class="col-12" id="${idmenu}"></span>
-										<div class="col-12">
-											<img src="image/menu.webp" height="8px" width="20px">
-										</div>
-									</div>
-								</div>
 							</div>`
-			
-		//menu list hover animation class name
-		if(indx%2==0){
-			var menuanimi=document.getElementById(`${idanimi}`)
-			menuanimi.setAttribute("class","menu1")
-		}
-		else{
-			var menuanimi=document.getElementById(`${idanimi}`)
-			menuanimi.setAttribute("class","menu2")
-		}
-		
-		//menu list
-		var menuCount=e.type.split(",").length
-		var menulist=e.type.split(",")
-		var idmenulist=document.getElementById(`${idmenu}`)
-		for(i=0;i<menuCount;i++){
-			var createmenu=document.createElement("p")
-			createmenu.setAttribute("style","color:gray;padding-top:10px;")
-			createmenu.innerHTML=menulist[i]
-
-			idmenulist.appendChild(createmenu)
-		}
 
 		//food image
 		var img=document.getElementsByClassName("img")[indx]
@@ -196,63 +156,73 @@ function hotelDetailView(value){
 	location.href="hotel-menu.html"
 }
 
-//hotel menu page 2
+ 
 
+//hotel menu page 2
 //getting card items in local storage
 var getOrdersFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodItems"))
 var getQuantityFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodQuantity"))
-
-console.log(getQuantityFromLocalStorage)
-
-//var reset=localStorage.setItem("hotelId",JSON.stringify(""))
 
 var cardHead=document.getElementById("card")
 cardHead.setAttribute("class","headcard-count")
 cardHead.innerHTML=getOrdersFromLocalStorage.length
 
-
-	getOrdersFromLocalStorage.map((e) =>{
-	
-	
-
-	var orderShowing=document.getElementById("orderShowing")
-	orderShowing.innerHTML+=`<div class="row">
-								<div class="col-3">
-									<p>${e.items_name}</p>
-								</div>
-								<div class="col-3">
-									<p>${e.items_price}</p>
-								</div>
-								<div class="col-3">
-									<input type="number" onclick="getQunatityInput('${e.id}')" value='${getQuantityFromLocalStorage[e.id].foodCountplaced}'style="width:50%" id="getQunatity${e.id}"></input>
-								</div>
-								<div class="col-3 rmvbtn">
-									<buttom id='Remove${e.id}' onclick="removeOrder('${e.id}')">Remove</button>
-								</div>
-							</div>`	
-
-							
+var orderShowing=document.getElementById("orderShowing")
+getOrdersFromLocalStorage.map((e) =>{
+orderShowing.innerHTML+=`<div class="row">
+                            <div class="col-3">
+                                <p>${e.items_name}</p>
+                            </div>
+                            <div class="col-3">
+                                <p>${e.items_price}</p>
+                            </div>
+                            <div class="col-3">
+                                <input type="number" min="1" max="5" onclick="getQunatityInput('${e.id}')" value='${getQuantityFromLocalStorage[e.id].foodCountplaced}'style="width:50%" id="getQunatity${e.id}"></input>
+                            </div>
+                            <div class="col-3 rmvbtn">
+                                <buttom id='Remove${e.id}' onclick="removeOrder('${e.id}')">Remove</button>
+                            </div>
+                        </div>`				
 })
+
+
+
 
 function removeOrder(rmvid){
 	var getquant=document.getElementById(`getQunatity${rmvid}`).value
 	var getOrdersFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodItems"))
-	
+    var setNewQuantity=[]
+    var setNewOrder=[]
+
 	for(i=0;i<getOrdersFromLocalStorage.length;i++){
 		if(getOrdersFromLocalStorage[i].id == rmvid){
-
+    
+    //Resetting QuantityFromLocalStorage
 			getQuantityFromLocalStorage.splice(i,1)
-			localStorage.setItem("savedFoodQuantity",JSON.stringify(getQuantityFromLocalStorage))
+            var newQuantityLength=getQuantityFromLocalStorage.length
+            for(var i=0;i<newQuantityLength;i++){
+                var x={...getQuantityFromLocalStorage[i],foodsavingId:i}
+                setNewQuantity[setNewQuantity.length]=x
+                
+            } 
+			localStorage.setItem("savedFoodQuantity",JSON.stringify(setNewQuantity))
 
-			getOrdersFromLocalStorage.splice(i,1)
-			localStorage.setItem("savedFoodItems",JSON.stringify(getOrdersFromLocalStorage))
-
+    //Resetting OrdersFromLocalStorage
+            getOrdersFromLocalStorage.splice(i,1)
+            var newOrderLength=getOrdersFromLocalStorage.length
+            for(var i=0;i<newOrderLength;i++){
+                var y={...getOrdersFromLocalStorage[i],id:i}
+                setNewOrder[setNewOrder.length]=y
+                
+            } 
+			localStorage.setItem("savedFoodItems",JSON.stringify(setNewOrder))
+    
+    //Removing the particular div
 			var removing=document.getElementById(`Remove${rmvid}`)
 			removing.parentElement.parentElement.remove()
 			
 		}
-	}
-	
+	}	
 }
 
 var saveQuantity=[]
@@ -295,7 +265,6 @@ function addTotal(){
 											<p>${total}</p>
 										</div>
 									</div>`
-			
 			}
 		}
 
@@ -334,8 +303,6 @@ console.log(rzp_button)
 
 
 function paymentGateway(paymntamount){
-	
-
 	var amt= paymntamount*100
 		var options = {
 			"key": "rzp_test_DeF2QdkgXxWVNm",  
