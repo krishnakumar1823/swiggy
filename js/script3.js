@@ -1,6 +1,15 @@
 var array=[{id:"food1",
             img:"image/food1.webp",
             name:"Albi Homemade Cakes",
+            type:"bakery",
+            rating:3.2,
+            time:"29 mins",
+            price:300,
+            distance:"3.1 Kms"},
+            
+            {id:"food2",
+            img:"image/food2.jpg",
+            name:"salem RR biriyani unavagam",
             food:[{ menuListId:"albi1",
                     recommandedType:"Chicken Fried Rice",
                     recommandedPrice:160,
@@ -12,24 +21,10 @@ var array=[{id:"food1",
                     recommandedImg:"image/salem rr 2.webp"},
 
                     { menuListId:"albi3",
-                    recommandedType:"Chicken Fried Rice",
-                    recommandedPrice:160,
-                    recommandedImg:"image/salem rr 1.webp"},
-
-                    { menuListId:"albi4",
                     recommandedType:"Chicken biriyani",
                     recommandedPrice:160,
                     recommandedImg:"image/food4.webp"}
                 ],
-            type:"bakery",
-            rating:3.2,
-            time:"29 mins",
-            price:300,
-            distance:"3.1 Kms"},
-            
-            {id:"food2",
-            img:"image/food2.jpg",
-            name:"salem RR biriyani unavagam",
             type:"biriyany,chettinad,tandoori,chinese",
             rating:3.7,
             time:"21 mins",
@@ -250,13 +245,13 @@ function addItems(value,array_i,array_j,clickCount){
 
 	//creating object and save them in local storage
     var saved=array[array_i].food[array_j].menuListId
-    savedItems[savedItems.length]={id:  array_j,
+    savedItems[savedItems.length]={id:   savedItems.length,
                                     items_name:array[array_i].food[array_j].recommandedType,
                                     items_price:array[array_i].food[array_j].recommandedPrice}
 
                                     localStorage.setItem("savedFoodItems",JSON.stringify(savedItems))
 
-    savedItemsorder[savedItemsorder.length]={foodsavingId:  array_j,
+    savedItemsorder[savedItemsorder.length]={foodsavingId:  savedItemsorder.length,
                                     foodCountplaced:1,
                                     items_name:array[array_i].food[array_j].recommandedType,
                                     items_price:array[array_i].food[array_j].recommandedPrice}
@@ -284,7 +279,7 @@ cardHead.innerHTML=getOrdersFromLocalStorage.length
 
 var orderShowing=document.getElementById("orderShowing")
 getOrdersFromLocalStorage.map((e) =>{
-orderShowing.innerHTML+=`<div class="row">
+orderShowing.innerHTML+=`<div class="row" id="${e.items_name}">
                             <div class="col-3">
                                 <p>${e.items_name}</p>
                             </div>
@@ -292,10 +287,10 @@ orderShowing.innerHTML+=`<div class="row">
                                 <p>${e.items_price}</p>
                             </div>
                             <div class="col-3">
-                                <input type="number" min="1" max="5" onclick="getQunatityInput('${e.id}')" value='${getQuantityFromLocalStorage[e.id].foodCountplaced}'style="width:50%" id="getQunatity${e.id}"></input>
+                                <input type="number" min="1" max="5" onclick="getQunatityInput('${e.id}')" value='${getQuantityFromLocalStorage[e.id].foodCountplaced}'style="width:50%" id="getQunatity${e.id}" style="cursor:pointer;"></input>
                             </div>
                             <div class="col-3 rmvbtn">
-                                <buttom id='Remove${e.id}' onclick="removeOrder('${e.id}')">Remove</button>
+                                <buttom id='${e.items_name}' onclick="removeOrder('${e.items_name}')" style="cursor:pointer;">Remove</button>
                             </div>
                         </div>`				
 })
@@ -303,20 +298,19 @@ orderShowing.innerHTML+=`<div class="row">
 
 
 
-function removeOrder(rmvid){
-	var getquant=document.getElementById(`getQunatity${rmvid}`).value
+function removeOrder(rmvFoodItem){
+	// var getquant=document.getElementById(rmvFoodItem)
 	var getOrdersFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodItems"))
     var setNewQuantity=[]
     var setNewOrder=[]
-
-	for(i=0;i<getOrdersFromLocalStorage.length;i++){
-		if(getOrdersFromLocalStorage[i].id == rmvid){
-    
+	for(i=0;i<getOrdersFromLocalStorage.length;i++){ 
+		if(getOrdersFromLocalStorage[i].items_name === rmvFoodItem){
+        
     //Resetting QuantityFromLocalStorage
 			getQuantityFromLocalStorage.splice(i,1)
             var newQuantityLength=getQuantityFromLocalStorage.length
-            for(var i=0;i<newQuantityLength;i++){
-                var x={...getQuantityFromLocalStorage[i],foodsavingId:i}
+            for(var k=0;k<newQuantityLength;k++){
+                var x={...getQuantityFromLocalStorage[k],foodsavingId:k}
                 setNewQuantity[setNewQuantity.length]=x
                 
             } 
@@ -330,31 +324,38 @@ function removeOrder(rmvid){
                 setNewOrder[setNewOrder.length]=y
                 
             } 
+
 			localStorage.setItem("savedFoodItems",JSON.stringify(setNewOrder))
     
     //Removing the particular div
-			var removing=document.getElementById(`Remove${rmvid}`)
-			removing.parentElement.parentElement.remove()
-			
+			var removing=document.getElementById(`${rmvFoodItem}`)
+			removing.remove()
 		}
 	}
 	
 }
 
-var saveQuantity=[]
 
 function getQunatityInput(userQuant){
-	ordQuantity=document.getElementById(`getQunatity${userQuant}`).value
+	var ordQuantity=document.getElementById(`getQunatity${userQuant}`).value
 
-	saveQuantity={foodsavingId:userQuant,
+	saveQuantity={
+		...getQuantityFromLocalStorage[userQuant],
+		foodsavingId:userQuant,
 		foodCountplaced:`${ordQuantity}`}
-		
-		getQuantityFromLocalStorage.splice(userQuant,1,saveQuantity)
-	
 
+        var findIndByName=getQuantityFromLocalStorage[userQuant].items_name
+
+        var indValue=getQuantityFromLocalStorage.findIndex((val)=>{
+            return val.items_name===findIndByName
+        })
+		
+		getQuantityFromLocalStorage.splice(indValue,1,saveQuantity)
+	
 		localStorage.setItem("savedFoodQuantity",JSON.stringify(getQuantityFromLocalStorage))
 		console.log(getQuantityFromLocalStorage)
 }
+
 
 function addTotal(){
 	var totaladdingArray=[]

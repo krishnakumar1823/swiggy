@@ -157,7 +157,6 @@ function hotelDetailView(value){
 }
 
  
-
 //hotel menu page 2
 //getting card items in local storage
 var getOrdersFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodItems"))
@@ -169,7 +168,7 @@ cardHead.innerHTML=getOrdersFromLocalStorage.length
 
 var orderShowing=document.getElementById("orderShowing")
 getOrdersFromLocalStorage.map((e) =>{
-orderShowing.innerHTML+=`<div class="row">
+orderShowing.innerHTML+=`<div class="row" id="${e.items_name}">
                             <div class="col-3">
                                 <p>${e.items_name}</p>
                             </div>
@@ -180,7 +179,7 @@ orderShowing.innerHTML+=`<div class="row">
                                 <input type="number" min="1" max="5" onclick="getQunatityInput('${e.id}')" value='${getQuantityFromLocalStorage[e.id].foodCountplaced}'style="width:50%" id="getQunatity${e.id}"></input>
                             </div>
                             <div class="col-3 rmvbtn">
-                                <buttom id='Remove${e.id}' onclick="removeOrder('${e.id}')">Remove</button>
+                                <buttom id='${e.items_name}' onclick="removeOrder('${e.items_name}')" style="cursor:pointer;">Remove</button>
                             </div>
                         </div>`				
 })
@@ -188,20 +187,19 @@ orderShowing.innerHTML+=`<div class="row">
 
 
 
-function removeOrder(rmvid){
-	var getquant=document.getElementById(`getQunatity${rmvid}`).value
+function removeOrder(rmvFoodItem){
+	// var getquant=document.getElementById(rmvFoodItem)
 	var getOrdersFromLocalStorage=JSON.parse(localStorage.getItem("savedFoodItems"))
     var setNewQuantity=[]
     var setNewOrder=[]
-
-	for(i=0;i<getOrdersFromLocalStorage.length;i++){
-		if(getOrdersFromLocalStorage[i].id == rmvid){
-    
+	for(i=0;i<getOrdersFromLocalStorage.length;i++){ 
+		if(getOrdersFromLocalStorage[i].items_name === rmvFoodItem){
+        
     //Resetting QuantityFromLocalStorage
 			getQuantityFromLocalStorage.splice(i,1)
             var newQuantityLength=getQuantityFromLocalStorage.length
-            for(var i=0;i<newQuantityLength;i++){
-                var x={...getQuantityFromLocalStorage[i],foodsavingId:i}
+            for(var k=0;k<newQuantityLength;k++){
+                var x={...getQuantityFromLocalStorage[k],foodsavingId:k}
                 setNewQuantity[setNewQuantity.length]=x
                 
             } 
@@ -218,27 +216,33 @@ function removeOrder(rmvid){
 			localStorage.setItem("savedFoodItems",JSON.stringify(setNewOrder))
     
     //Removing the particular div
-			var removing=document.getElementById(`Remove${rmvid}`)
-			removing.parentElement.parentElement.remove()
-			
+			var removing=document.getElementById(`${rmvFoodItem}`)
+			removing.remove()
 		}
-	}	
+	}
+	
 }
 
-var saveQuantity=[]
 
 function getQunatityInput(userQuant){
-	ordQuantity=document.getElementById(`getQunatity${userQuant}`).value
-
-	saveQuantity={foodsavingId:userQuant,
+	var ordQuantity=document.getElementById(`getQunatity${userQuant}`).value
+	saveQuantity={
+		...getQuantityFromLocalStorage[userQuant],
+		foodsavingId:userQuant,
 		foodCountplaced:`${ordQuantity}`}
-		
-		getQuantityFromLocalStorage.splice(userQuant,1,saveQuantity)
-	
 
+        var findIndByName=getQuantityFromLocalStorage[userQuant].items_name
+
+        var indValue=getQuantityFromLocalStorage.findIndex((val)=>{
+            return val.items_name===findIndByName
+        })
+		
+		getQuantityFromLocalStorage.splice(indValue,1,saveQuantity)
+	
 		localStorage.setItem("savedFoodQuantity",JSON.stringify(getQuantityFromLocalStorage))
 		console.log(getQuantityFromLocalStorage)
 }
+
 
 function addTotal(){
 	var totaladdingArray=[]
