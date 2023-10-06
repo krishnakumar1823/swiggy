@@ -315,7 +315,7 @@ function food2(){
 		var foodDetailsDiv=document.createElement("div")
 		var hotelName=document.createElement("h6")
 		hotelName.innerHTML=array[e].name
-		99var hotelType=document.createElement("p")
+		var hotelType=document.createElement("p")
 		hotelType.innerHTML=array[e].type
 		var foodspan=document.createElement("div")
 		var hotelRating=document.createElement("i")
